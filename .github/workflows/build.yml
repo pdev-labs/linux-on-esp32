@@ -31,8 +31,8 @@ jobs:
         run: |
           cd esp32s3-linux
           cp settings.cfg.default settings.cfg
-          # Run the build.
-          docker run --rm --name esp32s3linux --user="$(id -u):$(id -g)" \
+          # Run the build. Use 'yes' to bypass interactive prompts at the end of the script.
+          yes "" | docker run -i --rm --name esp32s3linux --user="$(id -u):$(id -g)" \
             -v ./esp32-linux-build:/app --env-file settings.cfg \
             esp32linuxbase ./rebuild-esp32s3-linux-wifi.sh
 
