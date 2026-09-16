@@ -1,0 +1,47 @@
+name: Build ESP32-S3 Linux
+
+on:
+  workflow_dispatch: # Allows manual trigger from the Actions tab
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Free Disk Space
+        uses: jlumbroso/free-disk-space@main
+        with:
+          tool-cache: false
+          android: true
+          dotnet: true
+          haskell: true
+          large-packages: true
+          docker-images: true
+          swap-storage: true
+
+      - name: Checkout Builder Repo
+        run: |
+          git clone --recursive https://github.com/hpsaturn/esp32s3-linux.git
+
+      - name: Build Docker Image
+        run: |
+          cd esp32s3-linux
+          docker build --build-arg DOCKER_USER=$USER --build-arg DOCKER_USERID=$UID -t esp32linuxbase .
+
+      - name: Compile Linux
+        run: |
+          cd esp32s3-linux
+          cp settings.cfg.default settings.cfg
+          # Run the build.
+          docker run --rm --name esp32s3linux --user="$(id -u):$(id -g)" \
+            -v ./esp32-linux-build:/app --env-file settings.cfg \
+            esp32linuxbase ./rebuild-esp32s3-linux-wifi.sh
+
+      - name: Upload Binaries
+        uses: actions/upload-artifact@v4
+        with:
+          name: esp32s3-firmware
+          path: |
+            esp32s3-linux/esp32-linux-build/images/bootloader.bin
+            esp32s3-linux/esp32-linux-build/images/partition-table.bin
+            esp32s3-linux/esp32-linux-build/images/xipImage
+            esp32s3-linux/esp32-linux-build/images/rootfs.cramfs
