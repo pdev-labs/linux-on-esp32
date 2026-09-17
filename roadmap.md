@@ -156,10 +156,10 @@ To use `esptool.py` directly from your host:
 ```bash
 pip install esptool
 esptool.py -p /dev/ttyACM0 -b 460800 --before default_reset --after hard_reset --chip esp32s3 write_flash \
-  0x0 bootloader.bin \
-  0x8000 partition-table.bin \
-  0x10000 xipImage \
-  0x200000 rootfs.cramfs
+  0x0 build/esp-hosted/esp_hosted_ng/esp/esp_driver/network_adapter/build/bootloader/bootloader.bin \
+  0x8000 build/esp-hosted/esp_hosted_ng/esp/esp_driver/network_adapter/build/partition_table/partition-table.bin \
+  0x120000 build/build-buildroot-esp32s3_devkit_c1_8m/images/xipImage \
+  0x480000 build/build-buildroot-esp32s3_devkit_c1_8m/images/rootfs.cramfs
 ```
 *(Note: Check the build output logs; the exact memory addresses and filenames like `xipImage` might vary slightly based on the script's output).*
 
