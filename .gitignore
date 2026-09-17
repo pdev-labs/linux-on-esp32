@@ -1,0 +1,8 @@
+# Build artifacts
+build/
+build-buildroot-*/
+esp32s3-linux-clone/
+*.bin
+*.cramfs
+*.jffs2
+xipImage
