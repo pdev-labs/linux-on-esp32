@@ -111,8 +111,11 @@ jobs:
         run: |
           cd esp32s3-linux
           cp settings.cfg.default settings.cfg
-          # Run the build. Use 'yes' to bypass interactive prompts at the end of the script.
-          yes "" | docker run -i --rm --name esp32s3linux --user="$(id -u):$(id -g)" \
+          # Patch the build script to remove interactive flashing loops.
+          # This deletes everything from the 'ready to flash' prompt to the end of the file.
+          sed -i '/read -p .ready to flash/,$d' esp32-linux-build/rebuild-esp32s3-linux-wifi.sh
+          # Run the build.
+          docker run --rm --name esp32s3linux --user="$(id -u):$(id -g)" \
             -v ./esp32-linux-build:/app --env-file settings.cfg \
             esp32linuxbase ./rebuild-esp32s3-linux-wifi.sh
 
@@ -121,10 +124,10 @@ jobs:
         with:
           name: esp32s3-firmware
           path: |
-            esp32s3-linux/esp32-linux-build/images/bootloader.bin
-            esp32s3-linux/esp32-linux-build/images/partition-table.bin
-            esp32s3-linux/esp32-linux-build/images/xipImage
-            esp32s3-linux/esp32-linux-build/images/rootfs.cramfs
+            esp32s3-linux/esp32-linux-build/build/esp-hosted/esp_hosted_ng/esp/network_adapter/build/bootloader/bootloader.bin
+            esp32s3-linux/esp32-linux-build/build/esp-hosted/esp_hosted_ng/esp/network_adapter/build/partition_table/partition-table.bin
+            esp32s3-linux/esp32-linux-build/build/build-buildroot-*/images/xipImage
+            esp32s3-linux/esp32-linux-build/build/build-buildroot-*/images/rootfs.cramfs
 ```
 
 ### 3. Run and Download
