@@ -44,7 +44,7 @@ jobs:
         with:
           name: esp32s3-firmware
           path: |
-            esp32s3-linux/esp32-linux-build/build/esp-hosted/esp_hosted_ng/esp/network_adapter/build/bootloader/bootloader.bin
-            esp32s3-linux/esp32-linux-build/build/esp-hosted/esp_hosted_ng/esp/network_adapter/build/partition_table/partition-table.bin
-            esp32s3-linux/esp32-linux-build/build/build-buildroot-*/images/xipImage
-            esp32s3-linux/esp32-linux-build/build/build-buildroot-*/images/rootfs.cramfs
+            esp32s3-linux/esp32-linux-build/**/*.bin
+            esp32s3-linux/esp32-linux-build/**/xipImage
+            esp32s3-linux/esp32-linux-build/**/*.cramfs
+            esp32s3-linux/esp32-linux-build/**/*.jffs2
