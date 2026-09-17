@@ -159,6 +159,7 @@ esptool.py -p /dev/ttyACM0 -b 460800 --before default_reset --after hard_reset -
   0x0 build/esp-hosted/esp_hosted_ng/esp/esp_driver/network_adapter/build/bootloader/bootloader.bin \
   0x8000 build/esp-hosted/esp_hosted_ng/esp/esp_driver/network_adapter/build/partition_table/partition-table.bin \
   0x10000 build/esp-hosted/esp_hosted_ng/esp/esp_driver/network_adapter/build/network_adapter.bin \
+  0xb0000 build/build-buildroot-esp32s3_devkit_c1_8m/images/etc.jffs2 \
   0x120000 build/build-buildroot-esp32s3_devkit_c1_8m/images/xipImage \
   0x480000 build/build-buildroot-esp32s3_devkit_c1_8m/images/rootfs.cramfs
 ```
